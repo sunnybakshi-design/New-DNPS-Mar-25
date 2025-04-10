@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DNPS Data Analysis</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    .chart-container {
+      width: 80%;
+      margin: 20px auto;
+    }
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .positive {
+      color: green;
+    }
+    .negative {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>DNPS Data Analysis</h1>
+
+  <h2>Overall DNPS Trend</h2>
+  <div class="chart-container">
+    <canvas id="overallDNPSChart"></canvas>
+  </div>
+
+  <h2>Family Performance in Existing Products</h2>
+  <table id="existingProductsTable">
+    <thead>
+      <tr>
+        <th>Family</th>
+        <th>Dec '24 NPS</th>
+        <th>Mar '25 NPS</th>
+        <th>Change</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+  <h2>Family Performance in New Products</h2>
+  <table id="newProductsTable">
+    <thead>
+      <tr>
+        <th>Family</th>
+        <th>Dec '24 NPS</th>
+        <th>Mar '25 NPS</th>
+        <th>Change</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+  <h2>Top Worst Performing New Products</h2>
+  <table id="worstProductsTable">
+    <thead>
+      <tr>
+        <th>Product ID</th>
+        <th>Product Name</th>
+        <th>Brand</th>
+        <th>Family</th>
+        <th>Ratings</th>
+        <th>Promoters</th>
+        <th>Detractors</th>
+        <th>% NPS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>e8d7331e-8bb1-472b-b6c8-04dc2d86ac7c</td>
+        <td>cranberry and cashew bisticks - 180gm</td>
+        <td>The Snack Company</td>
+        <td>food_beverages_925</td>
+        <td>290</td>
+        <td>137.00</td>
+        <td>116.00</td>
+        <td>7</td>
+      </tr>
+      <tr>
+        <td>055e4564-de0c-4998-bf34-2fd43f6a921f</td>
+        <td>rechargeable water pistol gun</td>
+        <td>Encasa</td>
+        <td>electronics_9ca</td>
+        <td>271</td>
+        <td>67.00</td>
+        <td>197.00</td>
+        <td>-48</td>
+      </tr>
+      <tr>
+        <td>7beb0a7d-05a2-4947-bcab-138353a461ae</td>
+        <td>Arabian dates 500gm each - pack of 2</td>
+        <td>AL BARAKAH DATES</td>
+        <td>food_beverages_925</td>
+        <td>257</td>
+        <td>125.00</td>
+        <td>92.00</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>a3fbecce-2855-4971-a536-e9078c61fb31</td>
+        <td>large medjool dates - 800gm</td>
+        <td>Royal Delight</td>
+        <td>food_beverages_925</td>
+        <td>104</td>
+        <td>51.00</td>
+        <td>37.00</td>
+        <td>13</td>
+      </tr>
+      <tr>
+        <td>73763b04-e813-4704-8565-1f635319469e</td>
+        <td>power adapter with type c cable 80w</td>
+        <td>AIKIN</td>
+        <td>electronics_9ca</td>
+        <td>94</td>
+        <td>46.00</td>
+        <td>37.00</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>ddeee407-cf17-43ee-b474-a6353c260c43</td>
+        <td>walnuts - 1kg</td>
+        <td>True Elements</td>
+        <td>food_beverages_925</td>
+        <td>64</td>
+        <td>26.00</td>
+        <td>34.00</td>
+        <td>-13</td>
+      </tr>
+      <tr>
+        <td>a5c30a25-2597-490f-a9f0-615ba764f592</td>
+        <td>BM27 upper arm blood pressure monitor</td>
+        <td>beurer</td>
+        <td>electronics_9ca</td>
+        <td>24</td>
+        <td>8.00</td>
+        <td>11.00</td>
+        <td>-13</td>
+      </tr>
+      <tr>
+        <td>0cf54568-f85b-4d28-a94b-d47c414db4d4</td>
+        <td>gulal color bomb party combo</td>
+        <td>Oye Happy</td>
+        <td>home_kitchen_ebo</td>
+        <td>73</td>
+        <td>29.00</td>
+        <td>39.00</td>
+        <td>-14</td>
+      </tr>
+      <tr>
+        <td>33a3cd70-82c2-4a5a-ae89-581ee11e9437</td>
+        <td>stainless steel multipurpose casserole and serving bowl with lid</td>
+        <td>Spring by LA'FORTE</td>
+        <td>home_kitchen_ebo</td>
+        <td>34</td>
+        <td>15.00</td>
+        <td>15.00</td>
+        <td>0</td>
+      </tr>
+    </tbody>
+  </table>
+
+ <h2>Top Families Needing Extra Attention - New Products</h2>
+  <table id="attentionTable">
+    <thead>
+      <tr>
+        <th>Family</th>
+        <th>Dec '24 Ratings</th>
+        <th>Dec '24 DNPS %</th>
+        <th>Dec '24 DOD</th>
+        <th>Dec '24 Non DOD</th>
+        <th>Mar '25 Ratings</th>
+        <th>Mar '25 DNPS %</th>
+        <th>Mar '25 DOD</th>
+        <th>Mar '25 Non DOD</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>electronics_9ca</td>
+        <td>1341</td>
+        <td>53</td>
+        <td>54</td>
+        <td>48</td>
+        <td>781</td>
+        <td>10</td>
+        <td>12</td>
+        <td>22</td>
+      </tr>
+      <tr>
+        <td>food_beverages_925</td>
+        <td>2566</td>
+        <td>46</td>
+        <td>47</td>
+        <td>36</td>
+        <td>889</td>
+        <td>25</td>
+        <td>22</td>
+        <td>51</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>New Product Launch Guardrails</h2>
+  <ul>
+    <li>Minimum product ratings: Above 4 stars with 50 minimum ratings in Ecommerce platofroms like Amazon, flipkart etc</li>
+    <li>Combo product check: Separate ratings check for each product in the combo (same as minimum product ratings)</li>
+    <li>Cred exclusive product soft launch: 20 days on NTU or similar campaigns</li>
+    <li>General soft launch: 20 days to assess performance with pre-check of ratings</li>
+  </ul>
+
+  <script>
+    // Data
+    const overallDNPSData = {
+      labels: ['December 24', 'March 25'],
+      datasets: [
+        {
+          label: 'Overall',
+          data: [49.87, 42.43],
+          backgroundColor: 'rgba(54, 162, 235, 0.7)',
+        },
+        {
+          label: 'DOD',
+          data: [51.32, 41.47],
+          backgroundColor: 'rgba(75, 192, 192, 0.7)',
+        },
+        {
+          label: 'NON DOD',
+          data: [49.89, 45.49],
+          backgroundColor: 'rgba(255, 99, 132, 0.7)',
+        }
+      ]
+    };
+
+    const overallDNPSInsight = "Overall DNPS decreased from 49.87 in Dec '24 to 42.43 in Mar '25. DOD DNPS decreased from 51.32 to 49.15, and NON DOD DNPS decreased from 49.89 to 47.14.";
+
+    const existingProductsData = [
+      { family: 'auto_06b', decNPS: 47, marNPS: 53 },
+      { family: 'beauty_personal_care_438', decNPS: 57, marNPS: 53 },
+      { family: 'electronics_9ca', decNPS: 46, marNPS: 43 },
+      { family: 'fashion_93e', decNPS: 40, marNPS: 41 },
+      { family: 'food_beverages_925', decNPS: 52, marNPS: 48 },
+      { family: 'home_kitchen_ebo', decNPS: 44, marNPS: 43 },
+      { family: 'wellness_32a', decNPS: 59, marNPS: 60 }
+    ];
+
+    const existingProductsInsight = "In existing products, wellness_32a family saw the highest NPS increase from 59 to 60, while food_beverages_925 family saw the largest decrease from 52 to 48.";
+
+    const newProductsData = [
+      { family: 'auto_06b', decNPS: 59, marNPS: 50 },
+      { family: 'beauty_personal_care_438', decNPS: 45, marNPS: 51 },
+      { family: 'electronics_9ca', decNPS: 53, marNPS: 10 },
+      { family: 'fashion_93e', decNPS: 46, marNPS: 41 },
+      { family: 'food_beverages_925', decNPS: 46, marNPS: 25 },
+      { family: 'home_kitchen_ebo', decNPS: 34, marNPS: 32 },
+      { family: 'wellness_32a', decNPS: 24, marNPS: 69 }
+    ];
+
+    const newProductsInsight = "In new products, wellness_32a family saw the highest NPS increase from 24 to 69, while electronics_9ca family saw the largest decrease from 53 to 10.";
+
+    const worstProductsData = [];
+
+    const worstProductsInsight = "The worst performing product in March '25 was cranberry and cashew bisticks - 180gm (The Snack Company) with an NPS of 7. Several food and beverage products also performed poorly.";
+
+    const attentionData = [];
+
+    const attentionInsight = "No families currently need extra attention. Note: Weightage of ratings with overall ratings remains the same in both months.";
+
+  </script>
+
+  <h2>Trends and Comparisons (Electronics, F&B, Home)</h2>
+  <ul>
+    <li>Overall DNPS decreased from 49.87 in Dec '24 to 42.43 in Mar '25.</li>
+    <li><b>Electronics:</b> In new products, electronics_9ca family saw a significant NPS decrease from 53 in Dec '24 to 10 in Mar '25.</li>
+    <li><b>Food & Beverages:</b> In new products, food_beverages_925 family saw a decrease from 46 in Dec '24 to 25 in Mar '25.</li>
+    <li><b>Home:</b> The Home category stays around 35 on average.</li>
+    <li>If removed worst performing new products from Dec '24, the overall DNPS would be 51.47, and if removed from Mar '25, the overall DNPS would be 49.</li>
+  </ul>
+
+  <script>
+    // Chart creation
+    const overallDNPSChart = new Chart(
+      document.getElementById('overallDNPSChart'), {
+        type: 'bar',
+        data: {
+          labels: ['December 24', 'March 25'],
+          datasets: [
+           {
+              label: 'Overall',
+              data: [49.87, 42.43],
+              backgroundColor: 'rgba(54, 162, 235, 0.7)',
+            },
+            {
+              label: 'DOD',
+              data: [51.32, 41.47],
+              backgroundColor: 'rgba(75, 192, 192, 0.7)',
+            },
+            {
+              label: 'NON DOD',
+              data: [48.61, 45.49],
+              backgroundColor: 'rgba(255, 99, 132, 0.7)',
+            }
+          ]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        },
+      }
+    );
+
+    // Table population functions
+    function populateTable(tableId, data, changeKey) {
+      const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+      data.forEach(item => {
+        let row = table.insertRow();
+        let familyCell = row.insertCell(0);
+        let decCell = row.insertCell(1);
+        let marCell = row.insertCell(2);
+        let changeCell = row.insertCell(3);
+
+        familyCell.innerHTML = item.family;
+        decCell.innerHTML = item.decNPS;
+        marCell.innerHTML = item.marNPS;
+
+        let change = item.marNPS - item.decNPS;
+        changeCell.innerHTML = change.toFixed(2);
+        if (change > 0) {
+          changeCell.classList.add('positive');
+        } else if (change < 0) {
+          changeCell.innerHTML = change.toFixed(2);
+        }
+      });
+    }
+
+    function populateWorstProductsTable(tableId, data) {
+      const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+      if (data.length > 0) {
+        data.forEach(item => {
+          let row = table.insertRow();
+          let productCell = row.insertCell(0);
+          let familyCell = row.insertCell(1);
+          let monthCell = row.insertCell(2);
+          let npsCell = row.insertCell(3);
+          let ratingCell = row.insertCell(4);
+
+          productCell.innerHTML = item.product;
+          familyCell.innerHTML = item.family;
+          monthCell.innerHTML = item.month;
+          npsCell.innerHTML = item.nps;
+          ratingCell.innerHTML = item.rating;
+        });
+      }
+    }
+
+    function populateAttentionTable(tableId, data) {
+      const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+      data.forEach(item => {
+        let row = table.insertRow();
+        let familyCell = row.insertCell(0);
+        let decNPSCell = row.insertCell(1);
+        let decRatingsCell = row.insertCell(2);
+        let marNPSCell = row.insertCell(3);
+        let marRatingsCell = row.insertCell(4);
+
+        familyCell.innerHTML = item.family;
+        decNPSCell.innerHTML = item.decNPS;
+        decRatingsCell.innerHTML = item.decRatings;
+        marNPSCell.innerHTML = item.marNPS;
+        marRatingsCell.innerHTML = item.marRatings;
+      });
+    }
+
+    // Populate tables
+    populateTable('existingProductsTable', existingProductsData, 'change');
+    populateTable('newProductsTable', newProductsData, 'change');
+    populateWorstProductsTable('worstProductsTable', worstProductsData);
+    populateAttentionTable('attentionTable', attentionData);
+
+    // Impact of removing worst performing products
+    const impact = "Removing worst performing products could improve overall DNPS by 2-3 points.";
+  </script>
+</body>
+</html>
